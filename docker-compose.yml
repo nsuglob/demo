@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:latest
+    restart: unless-stopped
+    volumes:
+      - /Users/suhlob/work/nginx_01/:/usr/share/nginx/html/
+    ports:
+      - "80:80"
