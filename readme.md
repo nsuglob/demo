@@ -3,3 +3,5 @@
 text from master branch
 
 text after reset commit
+
+text test commit
