@@ -1,10 +1,5 @@
-# demo task for playsdev
+# demo task
 
-text from master branch
-
-git commit 1
-git commit 2
-git commit 3
-git commit 4
-git commit 5
-git commit 6
+How to run:
+* sudo chmod +x ./init.sh
+* docker-compose up -d

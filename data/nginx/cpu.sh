@@ -2,7 +2,7 @@
 while :;
 do
   sleep 1
-  cat > /var/www/html/cpu.html << EOF
+  cat > /usr/share/nginx/html/cpu.html << EOF
 	<html>
 		<head>
 			<meta http-equiv="refresh" content="1">

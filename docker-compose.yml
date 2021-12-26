@@ -1,10 +1,25 @@
 version: '3'
-
 services:
   nginx:
-    image: nginx:latest
+    image: my-nginx:latest
     restart: unless-stopped
     volumes:
-      - /Users/suhlob/work/nginx_01/:/usr/share/nginx/html/
+      - ./data/nginx:/usr/share/nginx/html:ro
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
     ports:
       - "80:80"
+      - "443:443"
+  apache:
+    image: my-apache:latest
+    restart: unless-stopped
+    volumes:
+      - ./data/apache:/var/www/html:ro
+    ports:
+      - "8080:80"
+  certbot:
+    image: certbot/certbot
+    restart: unless-stopped
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
