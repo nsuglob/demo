@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains=(suhlob.hopto.org www.suhlob.hopto.org)
+domains=(docker312.ddns.net)
 rsa_key_size=4096
 data_path="./data/certbot"
 email="nikolay.suglob@gmail.com" # Adding a valid address is strongly recommended
