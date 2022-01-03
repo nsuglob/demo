@@ -1,10 +1,35 @@
 version: '3'
-
 services:
   nginx:
-    image: nginx:latest
+    image: my-nginx:latest
     restart: unless-stopped
     volumes:
-      - /Users/suhlob/work/nginx_01/:/usr/share/nginx/html/
+      - ./data/nginx:/usr/share/nginx/html
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    networks:
+        - backbone
     ports:
       - "80:80"
+      - "443:443"
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+  apache:
+    image: my-apache:latest
+    restart: unless-stopped
+    volumes:
+      - ./data/apache:/var/www/html
+    networks:
+        - backbone
+    ports:
+      - "8080:80"
+  certbot:
+    image: certbot/certbot
+    restart: unless-stopped
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+networks:
+  backbone:
+    driver: bridge
+

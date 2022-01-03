@@ -17,22 +17,19 @@
 
 	var color = headers.color;
 	console.log(color);
-	document.getElementById("square").style.backgroundColor = color;
+	document.getElementById("circle").style.backgroundColor = color;
     });
    </script>
   </head>
   <body>
-    <div class="container pt-5"> 
-  <!--
+    <div class="container pt-5">
     	<a class="btn btn-primary" href="/read" target="_blank">Read yaml</a> 
 	<a class="btn btn-primary" href="/info" target="_blank">Server Apache info</button> 
-  -->
 	<a class="btn btn-primary" href="/pugacheva.mp3" target="_blank">Download mp3</button> 
 	<a class="btn btn-primary" href="/content" target="_blank">Third party content</a>
-	<a class="btn btn-primary" href="/cpu.html" target="_blank">CPU usage<a/>
-	<a class="btn btn-primary" href="freddie_mercury.jpg">jpg image</a>
-	<a class="btn btn-primary" href="elvis_presley.png">png image</a>
-	<div style="height:100px;width:100px;" id="square"></div>
+	<a class="btn btn-primary" href="/freddie_mercury.jpg">jpg image</a>
+	<a class="btn btn-primary" href="/elvis_presley.png">png image</a>
+	<div style="height:100px;width:100px;border-radius:50%;" id="circle"></div>
      </div>
   </body>
 </html>

@@ -1,3 +1,5 @@
-# demo task for playsdev
+# demo task
 
-text from master branch
+How to run:
+* sudo chmod +x ./init.sh
+* docker-compose up -d
