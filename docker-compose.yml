@@ -21,7 +21,7 @@ services:
     networks:
         - backbone
     ports:
-      - "8080:80"
+      - "8081:80"
   certbot:
     image: certbot/certbot
     restart: unless-stopped
