@@ -1,0 +1,30 @@
+version: 0.2
+env:
+  variables:
+    AWS_ACCOUNT_ID         : "815405031071"
+    AWS_DEFAULT_REGION     : "eu-central-1"
+    NGINX_IMAGE_REPO_NAME  : "my-nginx"
+    APACHE_IMAGE_REPO_NAME : "my-apache"
+    IMAGE_TAG              : "v${CODEBUILD_BUILD_NUMBER}"
+    NGINX_REPOSITORY_URI   : "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${NGINX_IMAGE_REPO_NAME}"
+    APACHE_REPOSITORY_URI  : "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${APACHE_IMAGE_REPO_NAME}"
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - $(aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com)
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker images...
+      - docker build -t $NGINX_IMAGE_REPO_NAME:$IMAGE_TAG ./data/nginx
+      - docker build -t $APACHE_IMAGE_REPO_NAME:$IMAGE_TAG ./data/apache
+      - docker tag $NGINX_IMAGE_REPO_NAME:$IMAGE_TAG $NGINX_REPOSITORY_URI:$IMAGE_TAG
+      - docker tag $APACHE_IMAGE_REPO_NAME:$IMAGE_TAG $APACHE_REPOSITORY_URI:$IMAGE_TAG
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${NGINX_IMAGE_REPO_NAME}:${IMAGE_TAG}"
+      - docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${APACHE_IMAGE_REPO_NAME}:${IMAGE_TAG}"
